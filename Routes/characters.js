@@ -35,21 +35,4 @@ router.get("/characters", async (req, res) => {
   }
 });
 
-/*Route pour accéder à la fiche d'un personnage*/
-router.get("/character/:characterId", async (req, res) => {
-  const characterId = req.query._id;
-
-  console.log(characterId);
-
-  try {
-    const response = await axios.get(
-      `https://lereacteur-marvel-api.herokuapp.com/character/:characterId=${characterId}&apiKey=${apiKey}`
-    );
-
-    res.status(200).json(response.data);
-  } catch (error) {
-    res.status(400).json(response.error);
-  }
-});
-
 module.exports = router;
