@@ -31,6 +31,8 @@ const comicsRoute = require("./routes/comics");
 app.use(comicsRoute);
 const charactersRoute = require("./routes/characters");
 app.use(charactersRoute);
+const usersRoutes = require("./routes/users");
+app.use(usersRoutes);
 
 /*Lancement du serveur*/
 app.listen(process.env.PORT, () => {

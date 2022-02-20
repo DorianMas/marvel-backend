@@ -11,8 +11,20 @@ const apiKey = process.env.API_KEY;
 /*Route pour afficher les comics*/
 router.get("/comics", async (req, res) => {
   try {
+    const limit = 100;
+
+    // const filtersObject = {};
+
+    const searchTerm = req.query.title;
+
+    // filtersObject.product_name = new RegExp(searchTerm, "i");
+
+    const page = req.query.page;
+
+    const skip = (page - 1) * limit;
+
     const response = await axios.get(
-      `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${apiKey}`
+      `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${apiKey}&limit=${limit}&skip=${skip}&title=${searchTerm}`
     );
     res.status(200).json(response.data);
   } catch (error) {
