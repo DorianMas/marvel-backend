@@ -27,11 +27,11 @@ app.get("/", (req, res) => {
 });
 
 //import des routes
-const comicsRoute = require("./routes/comics");
+const comicsRoute = require("./Routes/comics");
 app.use(comicsRoute);
-const charactersRoute = require("./routes/characters");
+const charactersRoute = require("./Routes/characters");
 app.use(charactersRoute);
-const usersRoutes = require("./routes/users");
+const usersRoutes = require("./Routes/users");
 app.use(usersRoutes);
 
 /*Lancement du serveur*/
