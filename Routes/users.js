@@ -7,6 +7,9 @@ const uid2 = require("uid2");
 //import du modèle User
 const User = require("../Models/User");
 
+//import du MiddleWare
+const isAuthenticated = require("../middleware/isAuthenticated");
+
 router.post("/user/signup", async (req, res) => {
   try {
     //On vérifie qu'on envoie bien un username
@@ -71,4 +74,49 @@ router.post("/user/login", async (req, res) => {
   }
 });
 
+//Ajouter des favoris à un compte
+router.post("/user/add-favorites", async (req, res) => {
+  try {
+    const user = await User.findOne(req.fields.user);
+    console.log("Infos du user connecté ==>", user);
+
+    const characterToAdd = req.fields.character;
+    console.log(
+      "character à ajouter dans le tableau =========>",
+      characterToAdd
+    );
+
+    const characterFavorites = user.characterFavorites;
+    console.log(
+      "Tableau des characters en favoris avant ==>",
+      characterFavorites
+    );
+
+    const exist = characterFavorites.find(
+      (elem) => elem._id === characterToAdd._id
+    );
+
+    console.log("exist =====>", exist);
+
+    if (exist) {
+      alert("Le character figure déjà parmi vos favoris");
+    } else {
+      characterFavorites.push(characterToAdd);
+      console.log(
+        "Tableau des characters en favoris après ==>",
+        characterFavorites
+      );
+      await characterFavorites.save();
+    }
+
+    const comicFavorites = user.comicFavorites;
+
+    console.log("Tableau des comics en favoris ==>", comicFavorites);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = router;
+
+/* En Front, tu cliques sur le bouton ajouter en favoris qui va créer une requête à la route Add Favorites à laquelle on envoie le token de l'user et l'objet (Character ou Comic). On push dans le tableau vide l'objet envoyé depuis le front */
